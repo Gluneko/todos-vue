@@ -7,21 +7,24 @@
     {{item.label}}
     </li>
     </ul>
+    <p>child tells me:{{ childWords }}</p>
+    <component-a msgFromFather='what a girl wants' @child-tell-me-something='listenToMyBoy'></component-a>
   </div>
 </template>
 
 <script>
 import Store from './store'
-
+import componentA from './components/componentA'
 export default {
   data () {
     return {
       title: 'this is a todo list',
-      items:[
-      ],
-      newItem:''
+      items:Store.fetch(),
+      newItem:'',
+      childWords:''
     }
   },
+  components:{componentA},
   watch:{
     items:{
       handler:function (items) {
@@ -40,6 +43,9 @@ export default {
           isFinished:false
         });
         this.newItem='';
+      },
+      listenToMyBoy:function (msg) {
+        this.childWords=msg;
       }
   }
 }
